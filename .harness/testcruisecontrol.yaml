@@ -32,6 +32,13 @@ pipeline:
                   spec:
                     shell: Sh
                     command: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+              - step:
+                  type: Run
+                  name: run test
+                  identifier: run_test
+                  spec:
+                    shell: Sh
+                    command: docker run eclipse-temurin:11-jdk-focal uname -a; ./gradlew --no-daemon -PmaxParallelForks=1 build
           sharedPaths:
             - /workspace
         variables:
