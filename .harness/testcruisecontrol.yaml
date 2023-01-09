@@ -31,7 +31,7 @@ pipeline:
                   name: test-multi-arch
                   identifier: testmultiarch
                   spec:
-                    connectorRef: DhrubajyotiDocker
+                    connectorRef: account.harnessImage
                     image: ubuntu-2004:202107-02
                     shell: Sh
                     command: |-
