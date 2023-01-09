@@ -28,14 +28,14 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: test-multi-arch
-                  identifier: testmultiarch
+                  name: run unit tests
+                  identifier: run_unit_tests
                   spec:
-                    connectorRef: account.harnessImage
-                    image: ubuntu-2004:202107-02
                     shell: Sh
                     command: |-
+                      # install required qemu libraries
                       docker run --rm --privileged tonistiigi/binfmt:latest --install all
+                      # run docker container with qemu emulation
                       docker run --rm \
                       --platform << parameters.platform >> \
                       --name qemu-cross-<< parameters.platform >> \
