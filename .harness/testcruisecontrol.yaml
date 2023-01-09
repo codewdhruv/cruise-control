@@ -39,6 +39,13 @@ pipeline:
                   spec:
                     shell: Sh
                     command: docker run eclipse-temurin:11-jdk-focal uname -a; ./gradlew --no-daemon -PmaxParallelForks=1 build
+              - step:
+                  type: Run
+                  name: create test results
+                  identifier: create_test_results
+                  spec:
+                    shell: Sh
+                    command: mkdir ~/test-results
           sharedPaths:
             - /workspace
         variables:
