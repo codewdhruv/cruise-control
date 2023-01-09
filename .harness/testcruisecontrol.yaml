@@ -32,13 +32,4 @@ pipeline:
                   identifier: run_unit_tests
                   spec:
                     shell: Sh
-                    command: |-
-                      # install required qemu libraries
-                      docker run --rm --privileged tonistiigi/binfmt:latest --install all
-                      # run docker container with qemu emulation
-                      docker run --rm \
-                      --platform << parameters.platform >> \
-                      --name qemu-cross-<< parameters.platform >> \
-                      --mount type=bind,source=${PWD},target=/github_workspace \
-                      --workdir /github_workspace \
-                      << parameters.platform >>/eclipse-temurin:11-jdk-focal uname -a; ./gradlew --no-daemon -PmaxParallelForks=1 build
+                    command: docker run --rm --privileged tonistiigi/binfmt:latest --install all
