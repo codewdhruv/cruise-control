@@ -46,7 +46,7 @@ pipeline:
                                  --workdir /github_workspace \
                                  << parameters.platform >>/eclipse-temurin:11-jdk-focal uname -a; ./gradlew --no-daemon -PmaxParallelForks=1 build
           sharedPaths:
-            - ~/workspace
+            - /workspace
         variables:
           - name: _JAVA_OPTIONS
             type: String
