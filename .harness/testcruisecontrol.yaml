@@ -14,7 +14,6 @@ pipeline:
     - stage:
         name: test-multi-arch
         identifier: testmultiarch
-        description: ""
         type: CI
         spec:
           cloneCodebase: true
@@ -33,3 +32,27 @@ pipeline:
                   spec:
                     shell: Sh
                     command: docker run --rm --privileged tonistiigi/binfmt:latest --install all
+              - step:
+                  type: Run
+                  name: run unit tests 2
+                  identifier: run_unit_tests_2
+                  spec:
+                    shell: Sh
+                    command: |2-
+                               docker run --rm \
+                                 --platform << parameters.platform >> \
+                                 --name qemu-cross-<< parameters.platform >> \
+                                 --mount type=bind,source=${PWD},target=/github_workspace \
+                                 --workdir /github_workspace \
+                                 << parameters.platform >>/eclipse-temurin:11-jdk-focal uname -a; ./gradlew --no-daemon -PmaxParallelForks=1 build
+          sharedPaths:
+            - ~/workspace
+        variables:
+          - name: _JAVA_OPTIONS
+            type: String
+            description: ""
+            value: "-Xms512m -Xmx1g"
+          - name: DOCKER_CLI_EXPERIMENTAL
+            type: String
+            description: ""
+            value: enabled
